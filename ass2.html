@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #eef2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: 'Inter', Arial, sans-serif;
+            padding: 24px;
+        }
+
+        .signature {
+            display: flex;
+            max-width: 850px;
+            max-height: 295px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        .accent-bar {
+            width: 5px;
+            background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+            flex-shrink: 0;
+        }
+
+        .info-panel {
+            padding: 22px 24px 20px 20px;
+            width: 300px;
+            min-width: 255px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .name  { font-size: 18px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px; line-height: 1.2; }
+        .role  { font-size: 10px; font-weight: 700; color: #3b82f6; text-transform: uppercase; letter-spacing: 1.6px; margin-top: 4px; }
+        .divider { height: 1px; background: linear-gradient(90deg, #e2e8f0 60%, transparent); margin: 14px 0; }
+        .contacts { display: flex; flex-direction: column; gap: 8px; }
+
+        .contact-item { display: flex; align-items: center; gap: 9px; font-size: 12px; color: #374151; }
+
+        .icon-box {
+            width: 24px; height: 24px; min-width: 24px;
+            background: #eff6ff; border-radius: 7px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .contact-item a { color: #3b82f6; text-decoration: none; font-size: 11.5px; }
+        .contact-item a:hover { text-decoration: underline; }
+
+        /* ─── ÍCONES SOCIAIS — apenas ícone, sem texto ─── */
+        .social-row { display: flex; gap: 8px; margin-top: 18px; }
+
+        .social-icon-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: filter 0.2s, transform 0.15s;
+        }
+        .social-icon-btn:hover { filter: brightness(1.15); transform: translateY(-2px); }
+
+        .btn-linkedin  { background: #0077B5; }
+        .btn-instagram { background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 55%, #fcb045 100%); }
+        .btn-whatsapp  { background: #25D366; }
+
+        .v-divider { width: 1px; background: #f1f5f9; flex-shrink: 0; }
+
+        /* ─── PAINEL DIREITO ─────────────────────────── */
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border-radius: 0 16px 16px 0;
+        }
+
+        /* ─── CARROSSEL ──────────────────────────────── */
+        .carousel-zone {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            min-height: auto;
+        }
+
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── LOGOS DO CARROSSEL: MAIORES ── */
+        .carousel-slide img {
+            max-width: 72%;
+            max-height: 68%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.20));
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            z-index: 10;
+        }
+        .dot {
+            height: 5px; width: 5px; border-radius: 99px;
+            background:  #003876;
+            cursor: pointer;
+            transition: width 0.35s ease, background 0.35s ease;
+        }
+        .dot.active { width: 18px; background:#046ee7; }
+
+        /* ─── SEPARADOR ──────────────────────────────── */
+        .group-separator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 16px;
+            background: #f8fafc;
+            border-top: 1px solid #f1f5f9;
+            height: 22px;
+        }
+        .sep-line { flex: 1; height: 1px; background: #e2e8f0; }
+        .sep-label {
+            font-size: 8px; font-weight: 700; color: #94a3b8;
+            letter-spacing: 2px; text-transform: uppercase; white-space: nowrap;
+        }
+
+        /* ─── LOGOS MÃE — MAIORES ────────────────────── */
+        .parent-logos-zone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 10px 16px 13px;
+            background: #f8fafc;
+        }
+
+        .parent-logo-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80px;          /* aumentado de 36px → 48px */
+            padding: 6px 14px;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid #e9edf2;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            transition: box-shadow 0.2s, transform 0.15s;
+            flex: 1;               /* ocupa o espaço igualmente */
+            max-width: 130px;
+        }
+        .parent-logo-wrap:hover {
+            box-shadow: 0 4px 14px rgba(0,0,0,0.11);
+            transform: translateY(-1px);
+        }
+
+        .parent-logo-wrap img {
+            max-height: 56px;      /* aumentado de 26px → 36px */
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: grayscale(15%);
+            opacity: 0.88;
+            transition: opacity 0.2s, filter 0.2s;
+        }
+        .parent-logo-wrap:hover img { opacity: 1; filter: grayscale(0%); }
+    </style>
+</head>
+<body>
+
+<div class="signature">
+
+    <div class="accent-bar"></div>
+
+    <div class="info-panel">
+        <p class="name">JOAO ADIB</p>
+        <p class="role">Diretor Presidente</p>
+        <div class="divider"></div>
+
+        <div class="contacts">
+            <div class="contact-item">
+                <div class="icon-box">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11 19.79 19.79 0 0 1 1.61 2.38 2 2 0 0 1 3.58.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 7.91a16 16 0 0 0 6.18 6.18l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                </div>
+                <span>(55) 21 000-0000</span>
+            </div>
+
+            <div class="contact-item">
+                <div class="icon-box">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                </div>
+                <a href="mailto:rodolfo@martinsatatodo.com.br">user@site.com.br</a>
+            </div>
+
+            <div class="contact-item">
+                <div class="icon-box">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </div>
+                <span>Uberlândia, MG – Brasil</span>
+            </div>
+
+            <div class="contact-item">
+                <div class="icon-box">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                </div>
+                <a href="https://www.martinsatatodo.com.br" style="color:#374151;">www.site.com.br</a>
+            </div>
+        </div>
+
+        <!-- Ícones sociais — SÓ ÍCONE, SEM TEXTO -->
+        <div class="social-row">
+            <a href="https://linkedin.com" class="social-icon-btn btn-linkedin" title="LinkedIn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+            <a href="https://instagram.com" class="social-icon-btn btn-instagram" title="Instagram">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+            </a>
+            <a href="https://wa.me/5521000000000" class="social-icon-btn btn-whatsapp" title="WhatsApp">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <div class="v-divider"></div>
+
+    <div class="right-panel">
+
+        <!-- Carrossel das 4 marcas -->
+        <div class="carousel-zone">
+            <div class="carousel-track" id="track">
+                <div class="carousel-slide" style="background:#FFF9E9">
+                    <img src="https://github.com/DanielpRibeiro/Firts-Ass/blob/main/1%20(1).png" alt="Logo 1">
+                </div>
+                <div class="carousel-slide" style="background:#EAE8F4">
+                    <img src="https://github.com/DanielpRibeiro/Firts-Ass/blob/main/1%20(2).png" alt="Logo 2">
+                </div>
+                <div class="carousel-slide" style="background:#FDF5D9">
+                    <img src="https://github.com/DanielpRibeiro/Firts-Ass/blob/main/1%20(3).png" alt="Logo 3">
+                </div>
+                <div class="carousel-slide" style="background:#E0F3F9">
+                    <img src="https://github.com/DanielpRibeiro/Firts-Ass/blob/main/1%20(4).png" alt="Logo 4">
+                </div>
+            </div>
+            <div class="carousel-dots">
+                <div class="dot active" onclick="goTo(0)"></div>
+                <div class="dot" onclick="goTo(1)"></div>
+                <div class="dot" onclick="goTo(2)"></div>
+                <div class="dot" onclick="goTo(3)"></div>
+            </div>
+        </div>
+
+        <!-- Separador de hierarquia -->
+        <div class="group-separator">
+            <div class="sep-line"></div>
+            <span class="sep-label">Empresas do Grupo</span>
+            <div class="sep-line"></div>
+        </div>
+
+        <!-- 2 logos mãe — estáticas -->
+        <div class="parent-logos-zone">
+            <div class="parent-logo-wrap">
+                <img src="https://github.com/DanielpRibeiro/Firts-Ass/blob/main/1.png" alt="Empresa detentora 1">
+            </div>
+            <div class="parent-logo-wrap">
+                <img src="https://github.com/DanielpRibeiro/Firts-Ass/blob/main/2.png" alt="Empresa detentora 2">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    let current = 0;
+    const total = 4;
+    const track = document.getElementById('track');
+    const dots  = document.querySelectorAll('.dot');
+
+    // Clona o primeiro slide e adiciona ao final do track
+    const firstSlide = track.querySelector('.carousel-slide');
+    const clone = firstSlide.cloneNode(true);
+    track.appendChild(clone);
+
+    function updateDots(index) {
+        dots.forEach((d, i) => d.classList.toggle('active', i === index % total));
+    }
+
+    function goTo(index) {
+        current = index;
+        track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        track.style.transform  = `translateX(-${current * 100}%)`;
+        updateDots(current);
+    }
+
+    function next() {
+        goTo(current + 1);
+
+        // Se chegou no clone (posição 4), após a animação terminar:
+        // reseta silenciosamente para a slide 1 real (posição 0)
+        if (current === total) {
+            setTimeout(() => {
+                track.style.transition = 'none';       // desativa animação
+                current = 0;
+                track.style.transform  = 'translateX(0%)'; // pula para início
+                updateDots(0);
+            }, 520); // 20ms a mais que a transição (500ms) para não cortar
+        }
+    }
+
+    // Auto-play
+    setInterval(next, 3500);
+</script>
+
+</body>
+</html>
